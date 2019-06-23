@@ -1,4 +1,4 @@
-// @flow strict-local
+// @flow
 
 import path from "path";
 import grpc from "grpc";
@@ -21,6 +21,9 @@ export const ClientRequests: {
 };
 
 export default class LibraClient {
+    serverAddress: string;
+    client: any; // todo: better typing
+
     constructor(address: string) {
         this.serverAddress = address;
         const admissionControlDef = protoloader.loadSync(admission_control_proto, {
@@ -34,7 +37,7 @@ export default class LibraClient {
             oneofs: true
         });
         const admissionControl = grpc.loadPackageDefinition(admissionControlDef).admission_control;
-        this.client = admissionControl.AdmissionControl(this.address, grpc.credentials.createInsecure());
+        this.client = admissionControl.AdmissionControl(this.serverAddress, grpc.credentials.createInsecure());
     }
 
     UpdateToLatestLedger(): void {
