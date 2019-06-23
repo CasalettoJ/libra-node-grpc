@@ -6,13 +6,14 @@
     "author": "Jake Casaletto",
     "license": "MIT",
     "scripts": {
-        "test-libra-env-var": "if [ -z \"$LIBRA\" ]; then echo \"\\$LIBRA environment variable missing.\"; echo \"Please set \\$LIBRA to the Libra Core root path\"; exit 1; fi",
+        "test-libra-env-var": "if [ -z $LIBRA ]; then echo \"\\$LIBRA environment variable missing.\"; echo \"Please set \\$LIBRA to the Libra Core root path\"; exit 1; fi",
         "testnet": "npm run test-libra-env-var && (cd $LIBRA && ./scripts/cli/start_cli_testnet.sh)",
         "setup": "npm install && mkdir -p dist && npm run build",
-        "clean": "rm -rf dist/* && mkdir -p dist/proto && rm -rf src/proto/* && mkdir -p src/proto/flowtypes",
-        "build": "npm run clean && npm run copy-protos && npm run build-protos && cp -rf src/* dist/*",
-        "copy-protos": "npm run test-libra-env-var && echo \"Copying Libra protobuf files...\"; find \"$LIBRA\" -name \"*.proto\" -exec cp {} src/proto/ \\;",
-        "build-protos": "npm run test-libra-env-var && rm -rf ./src/flowtypes/* && echo \"Flow-typing Libra protobuf files...\"; projdir=$(pwd); find \"$LIBRA\" -name \"*.proto\" -execdir protoc --plugin=\"protoc-gen-flow=$projdir/node_modules/.bin/protoc-gen-flow\" --js_out=\"import_style=commonjs,binary:$projdir/src/proto\" --flow_out=\"$projdir/src/proto/flowtypes\"  {}  \\;"
+        "clean": "rm -rf dist/* && npm run clean-protos",
+        "clean-protos": "rm -rf src/proto/* && mkdir -p src/proto/flowtypes && mkdir -p src/proto/js",
+        "build": "npm run clean && npm run build-protos && cp -rf src/* dist/*",
+        "copy-protos": "npm run test-libra-env-var && echo \"Copying Libra protobuf files...\"; sourcedir=$(pwd); find $LIBRA -name \"*.proto\" -execdir echo \"\tCopying {}...\" \\; -exec cp \"{}\" ./src/proto \\;",
+        "build-protos": "npm run test-libra-env-var && npm run clean-protos && npm run copy-protos && echo \"Building and Flow-typing Libra protobuf files...\"; sourcedir=$(pwd); find ./src/proto -name \"*.proto\" -execdir protoc --plugin=\"protoc-gen-flow=$sourcedir/node_modules/.bin/protoc-gen-flow\" --js_out=\"import_style=commonjs,binary:$sourcedir/src/proto/js\" --flow_out=\"$sourcedir/src/proto/flowtypes\"  -I$sourcedir/src/proto \"{}\"  \\;"
     },
     "dependencies": {
         "@grpc/proto-loader": "^0.5.1",
