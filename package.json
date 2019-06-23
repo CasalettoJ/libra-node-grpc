@@ -13,10 +13,9 @@
         "clean-protos": "rm -rf src/proto/* && mkdir -p src/proto/flowtypes && mkdir -p src/proto/js",
         "build": "npm run clean && npm run build-protos && cp -a ./src/. ./dist/",
         "copy-protos": "npm run test-libra-env-var && echo \"Copying Libra protobuf files...\"; sourcedir=$(pwd); find $LIBRA -name \"*.proto\" -execdir echo \"\tCopying {}...\" \\; -execdir cp \"{}\" $sourcedir/src/proto \\; -execdir sed -i '' 's#import \"shared/#import \"#g' $sourcedir/src/proto/{} \\;",
-        "build-protos": "npm run test-libra-env-var && npm run clean-protos && npm run copy-protos && echo \"Building and Flow-typing Libra protobuf files...\"; sourcedir=$(pwd); find ./src/proto -name \"*.proto\" -execdir protoc --plugin=\"protoc-gen-flow=$sourcedir/node_modules/.bin/protoc-gen-flow\" --js_out=\"import_style=commonjs,binary:$sourcedir/src/proto/js\" --flow_out=\"$sourcedir/src/proto/flowtypes\"  -I$sourcedir/src/proto \"{}\"  \\;"
+        "build-protos": "npm run test-libra-env-var && npm run clean-protos && npm run copy-protos && echo \"Building and Flow-typing Libra protobuf files...\"; sourcedir=$(pwd); find ./src/proto -name \"*.proto\" -execdir protoc --plugin=protoc-gen-grpc=`which grpc_tools_node_protoc_plugin` --grpc_out=$sourcedir/src/proto/js --plugin=\"protoc-gen-flow=$sourcedir/node_modules/.bin/protoc-gen-flow\" --js_out=\"import_style=commonjs,binary:$sourcedir/src/proto/js\" --flow_out=service=true:\"$sourcedir/src/proto/flowtypes\"  -I$sourcedir/src/proto \"{}\"  \\;"
     },
     "dependencies": {
-        "@grpc/proto-loader": "^0.5.1",
         "grpc": "^1.21.1"
     },
     "devDependencies": {
