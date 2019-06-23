@@ -1,27 +1,29 @@
 {
-  "name": "libra_nodejs_grpc",
-  "version": "0.0.1",
-  "description": "Test gRPC Nodejs project w/ Libra protobufs",
-  "main": "index.js",
-  "author": "Jake Casaletto",
-  "license": "MIT",
-  "scripts": {
-    "test-libra-env-var": "if [ -z \"$LIBRA\" ]; then echo \"\\$LIBRA environment variable missing.\"; echo \"Please set \\$LIBRA to the Libra Core root path\"; exit 1; fi",
-    "testnet": "npm run test-libra-env-var && (cd $LIBRA && ./scripts/cli/start_cli_testnet.sh)",
-    "setup": "npm install && mkdir dist && npm run clean",
-    "clean": "rm -rf dist/* && mkdir dist/proto && npm run copyprotos",
-    "copyprotos": "npm run test-libra-env-var && echo \"Copying Libra protobuf files...\"; find \"$LIBRA\" -name \"*.proto\" -exec cp {} dist/proto/ \\;"
-  },
-  "dependencies": {
-    "@grpc/proto-loader": "^0.5.1",
-    "grpc": "^1.21.1"
-  },
-  "devDependencies": {
-    "eslint": "^6.0.0",
-    "eslint-config-prettier": "^5.0.0",
-    "eslint-plugin-flowtype": "^3.10.5",
-    "eslint-plugin-prettier": "^3.1.0",
-    "flow-bin": "^0.101.1",
-    "prettier": "^1.18.2"
-  }
+    "name": "libra_nodejs_grpc",
+    "version": "0.0.1",
+    "description": "Test gRPC Nodejs project w/ Libra protobufs",
+    "main": "index.js",
+    "author": "Jake Casaletto",
+    "license": "MIT",
+    "scripts": {
+        "test-libra-env-var": "if [ -z \"$LIBRA\" ]; then echo \"\\$LIBRA environment variable missing.\"; echo \"Please set \\$LIBRA to the Libra Core root path\"; exit 1; fi",
+        "testnet": "npm run test-libra-env-var && (cd $LIBRA && ./scripts/cli/start_cli_testnet.sh)",
+        "setup": "npm install && mkdir -p dist && npm run build",
+        "clean": "rm -rf dist/* && mkdir -p dist/proto && rm -rf src/proto/* && mkdir -p src/proto/flowtypes npm run build-protos",
+        "build": "npm run clean && cp -rf src/* dist/*",
+        "build-protos": "npm run test-libra-env-var && rm -rf ./src/flowtypes/* && echo \"Flow-typing Libra protobuf files...\"; projdir=$(pwd); find \"$LIBRA\" -name \"*.proto\" -execdir protoc --plugin=\"protoc-gen-flow=$projdir/node_modules/.bin/protoc-gen-flow\" --js_out=\"import_style=commonjs,binary:$projdir/src/proto\" --flow_out=\"$projdir/src/proto/flowtypes\"  {}  \\;"
+    },
+    "dependencies": {
+        "@grpc/proto-loader": "^0.5.1",
+        "grpc": "^1.21.1"
+    },
+    "devDependencies": {
+        "eslint": "^6.0.0",
+        "eslint-config-prettier": "^5.0.0",
+        "eslint-plugin-flowtype": "^3.10.5",
+        "eslint-plugin-prettier": "^3.1.0",
+        "flow-bin": "^0.101.1",
+        "flowtype-protoc-gen": "^0.8.1-pre",
+        "prettier": "^1.18.2"
+    }
 }
