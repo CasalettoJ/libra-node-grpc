@@ -9,8 +9,9 @@
         "test-libra-env-var": "if [ -z \"$LIBRA\" ]; then echo \"\\$LIBRA environment variable missing.\"; echo \"Please set \\$LIBRA to the Libra Core root path\"; exit 1; fi",
         "testnet": "npm run test-libra-env-var && (cd $LIBRA && ./scripts/cli/start_cli_testnet.sh)",
         "setup": "npm install && mkdir -p dist && npm run build",
-        "clean": "rm -rf dist/* && mkdir -p dist/proto && rm -rf src/proto/* && mkdir -p src/proto/flowtypes npm run build-protos",
-        "build": "npm run clean && cp -rf src/* dist/*",
+        "clean": "rm -rf dist/* && mkdir -p dist/proto && rm -rf src/proto/* && mkdir -p src/proto/flowtypes",
+        "build": "npm run clean && npm run copy-protos && npm run build-protos && cp -rf src/* dist/*",
+        "copy-protos": "npm run test-libra-env-var && echo \"Copying Libra protobuf files...\"; find \"$LIBRA\" -name \"*.proto\" -exec cp {} src/proto/ \\;",
         "build-protos": "npm run test-libra-env-var && rm -rf ./src/flowtypes/* && echo \"Flow-typing Libra protobuf files...\"; projdir=$(pwd); find \"$LIBRA\" -name \"*.proto\" -execdir protoc --plugin=\"protoc-gen-flow=$projdir/node_modules/.bin/protoc-gen-flow\" --js_out=\"import_style=commonjs,binary:$projdir/src/proto\" --flow_out=\"$projdir/src/proto/flowtypes\"  {}  \\;"
     },
     "dependencies": {
@@ -24,6 +25,7 @@
         "eslint-plugin-prettier": "^3.1.0",
         "flow-bin": "^0.101.1",
         "flowtype-protoc-gen": "^0.8.1-pre",
+        "google-protobuf": "^3.8.0",
         "prettier": "^1.18.2"
     }
 }
