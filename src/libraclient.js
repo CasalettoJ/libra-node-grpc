@@ -1,13 +1,19 @@
+// @flow strict-local
+
 import path from "path";
 import grpc from "grpc";
 import protoloader from "@grpc/proto-loader";
 
 const admission_control_proto = path.resolve(__dirname, "proto/admission_control.proto");
 
-
 // todo: better control than const strings here
 // defined in get_with_proof.proto message RequestItem
-export const ClientRequests = {
+export const ClientRequests: {
+    accountState: string,
+    accountTxBySequence: string,
+    eventsByEventAccessPath: string,
+    tx: string
+} = {
     accountState: "get_account_state_request",
     accountTxBySequence: "get_account_transaction_by_sequence_number_request",
     eventsByEventAccessPath: "get_events_by_event_access_path_request",
@@ -15,7 +21,7 @@ export const ClientRequests = {
 };
 
 export default class LibraClient {
-    constructor(address) {
+    constructor(address: string) {
         this.serverAddress = address;
         const admissionControlDef = protoloader.loadSync(admission_control_proto, {
             keepCase: true,
@@ -25,17 +31,17 @@ export default class LibraClient {
             defaults: true,
             arrays: true,
             objects: true,
-            oneofs: true,
+            oneofs: true
         });
         const admissionControl = grpc.loadPackageDefinition(admissionControlDef).admission_control;
         this.client = admissionControl.AdmissionControl(this.address, grpc.credentials.createInsecure());
     }
 
-    public function UpdateToLatestLedger() {
+    UpdateToLatestLedger(): void {
         // TODO
     }
 
-    public function SubmitTransaction() {
+    SubmitTransaction(): void {
         // TODO
     }
 }

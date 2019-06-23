@@ -4,4 +4,5 @@
   "[markdown]": {
     "editor.wordWrap": "on"
   },
+  "flow.useNPMPackagedFlow": true
 }

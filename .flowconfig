@@ -1,0 +1,16 @@
+[ignore]
+./dist/.*
+./flow-typed/npm/.*
+
+[libs]
+flow-typed
+
+[lints]
+deprecated-utility=off
+
+[strict]
+nonstrict-import
+unclear-type
+unsafe-getters-setters
+untyped-import
+untyped-type-import
