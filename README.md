@@ -18,7 +18,7 @@ references from https://github.com/bonustrack/libra-grpc for basic npm grpc/prot
 2. Set \$LIBRA environment variable to root libra project path
 3. `npm run setup` will install node modules, find libra proto files, build js and flow files for them
 4. `node src/main.js` will run a small client test with an empty update request.
-5. `npm run start-server` starts the express server with the REST api w/ libra RPC. By default runs at localhost:3000 but can be changed in server/config.js.
+5. `npm run start-server` starts the express server with the REST api w/ libra RPC. By default runs at localhost:3001 but can be changed in server/config.js.
 6. Open dist/client/index.html to see a demo page hitting the endpoint.
 
 run `npm run testnet` to quickly launch libra testnet cli as an unrelated convenience. There's a lot of other scripts too I guess.
