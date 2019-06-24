@@ -1,3 +1,4 @@
 dist/
 node_modules/
-src/proto
+src/server/proto/*
+.DS_Store

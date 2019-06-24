@@ -3,6 +3,5 @@
     "javascript.validate.enable": false,
     "[markdown]": {
         "editor.wordWrap": "on"
-    },
-    "eslint.workingDirectories": ["../"]
+    }
 }

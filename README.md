@@ -1,10 +1,10 @@
 ## TODOs:
 
-- proper Readme
-- typescript
-- libraclient grpc implementation
-- build system for minifying, etc
-- transcribe npm scripts into .sh files for convenience
+-   proper Readme
+-   typescript or flow typing
+-   full available grpc implementation
+-   transcribe npm scripts into .sh files for convenience
+-   move some npm scripts to be handled by webpack
 
 ## Sources
 
@@ -16,6 +16,7 @@ references from https://github.com/bonustrack/libra-grpc for basic npm grpc/prot
 2. Set \$LIBRA environment variable to root libra project path
 3. `npm run setup` will install node modules, find libra proto files, build js and flow files for them
 4. `node src/main.js` will run a small client test with an empty update request.
+5. `npm run start-dev` will run the test page at localhost:8080 via webpack-dev-server
 
 run `npm run testnet` to quickly launch libra testnet cli as an unrelated convenience.
 

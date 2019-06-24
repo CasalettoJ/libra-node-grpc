@@ -1,32 +1,42 @@
 {
-  "extends": ["airbnb"],
-  "rules": {
-    "no-var": "off",
-    "no-console": "off",
-    "react/jsx-indent": "off",
-    "react/jsx-one-expression-per-line": "off",
-    "react/destructuring-assignment": "off",
-    "react/jsx-indent-props": "off",
-    "no-use-before-define": "off",
-    "no-unneeded-ternary": "off",
-    "no-nested-ternary": "off",
-    "react/no-array-index-key": "off",
-    "import/no-extraneous-dependencies": "off",
-    "import/prefer-default-export": "off"
-  },
-  "globals": {
-    "SyntheticEvent": true,
-    "SyntheticAnimationEvent": true,
-    "SyntheticClipboardEvent": true,
-    "SyntheticCompositionEvent": true,
-    "SyntheticInputEvent": true,
-    "SyntheticUIEvent": true,
-    "SyntheticFocusEvent": true,
-    "SyntheticKeyboardEvent": true,
-    "SyntheticMouseEvent": true,
-    "SyntheticDragEvent": true,
-    "SyntheticWheelEvent": true,
-    "SyntheticTouchEvent": true,
-    "SyntheticTransitionEvent": true
-  }
+    "extends": ["airbnb", "prettier"],
+    "plugins": ["prettier"],
+    "parser": "babel-eslint",
+    "env": {
+        "browser": true,
+        "es6": true
+    },
+    "rules": {
+        "no-var": "off",
+        "no-console": "off",
+        "prettier/prettier": "off",
+        "react/jsx-indent": "off",
+        "react/jsx-one-expression-per-line": "off",
+        "react/destructuring-assignment": "off",
+        "react/jsx-indent-props": "off",
+        "no-use-before-define": "off",
+        "no-unneeded-ternary": "off",
+        "no-nested-ternary": "off",
+        "react/no-array-index-key": "off",
+        "import/no-extraneous-dependencies": "off",
+        "import/prefer-default-export": "off"
+    },
+    "settings": {
+        "import/resolver": "webpack"
+    },
+    "globals": {
+        "SyntheticEvent": true,
+        "SyntheticAnimationEvent": true,
+        "SyntheticClipboardEvent": true,
+        "SyntheticCompositionEvent": true,
+        "SyntheticInputEvent": true,
+        "SyntheticUIEvent": true,
+        "SyntheticFocusEvent": true,
+        "SyntheticKeyboardEvent": true,
+        "SyntheticMouseEvent": true,
+        "SyntheticDragEvent": true,
+        "SyntheticWheelEvent": true,
+        "SyntheticTouchEvent": true,
+        "SyntheticTransitionEvent": true
+    }
 }

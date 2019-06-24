@@ -1,30 +1,58 @@
 {
-  "name": "libra_nodejs_grpc",
-  "version": "0.0.1",
-  "description": "Test gRPC Nodejs project w/ Libra protobufs",
-  "main": "index.js",
-  "author": "Jake Casaletto",
-  "license": "MIT",
-  "scripts": {
-    "test-libra-env-var": "if [ -z $LIBRA ]; then echo \"\\$LIBRA environment variable missing.\"; echo \"Please set \\$LIBRA to the Libra Core root path\"; exit 1; fi",
-    "testnet": "npm run test-libra-env-var && (cd $LIBRA && ./scripts/cli/start_cli_testnet.sh)",
-    "setup": "npm install && mkdir -p dist && npm run build",
-    "clean": "rm -rf dist/* && npm run clean-protos",
-    "clean-protos": "rm -rf src/proto/* && mkdir -p src/proto/flowtypes && mkdir -p src/proto/js",
-    "build": "npm run clean && npm run build-protos && cp -a ./src/. ./dist/",
-    "copy-protos": "npm run test-libra-env-var && echo \"Copying Libra protobuf files...\"; sourcedir=$(pwd); find $LIBRA -name \"*.proto\" -execdir echo \"\tCopying {}...\" \\; -execdir cp \"{}\" $sourcedir/src/proto \\; -execdir sed -i '' 's#import \"shared/#import \"#g' $sourcedir/src/proto/{} \\;",
-    "build-protos": "npm run test-libra-env-var && npm run clean-protos && npm run copy-protos && echo \"Building and Flow-typing Libra protobuf files...\"; sourcedir=$(pwd); find ./src/proto -name \"*.proto\" -execdir protoc --plugin=protoc-gen-grpc=`which grpc_tools_node_protoc_plugin` --grpc_out=$sourcedir/src/proto/js --plugin=\"protoc-gen-flow=$sourcedir/node_modules/.bin/protoc-gen-flow\" --js_out=\"import_style=commonjs,binary:$sourcedir/src/proto/js\" --flow_out=service=true:\"$sourcedir/src/proto/flowtypes\"  -I$sourcedir/src/proto \"{}\"  \\;"
-  },
-  "dependencies": {
-    "eslint": "^5.3.0",
-    "grpc": "^1.21.1"
-  },
-  "devDependencies": {
-    "eslint-config-airbnb": "^17.1.0",
-    "eslint-plugin-import": "^2.17.3",
-    "eslint-plugin-jsx-a11y": "^6.2.1",
-    "eslint-plugin-react": "^7.14.0",
-    "flowtype-protoc-gen": "^0.8.1-pre",
-    "google-protobuf": "^3.8.0"
-  }
+    "name": "libra_nodejs_grpc",
+    "version": "0.0.1",
+    "description": "Test gRPC Nodejs project w/ Libra protobufs",
+    "main": "index.js",
+    "author": "Jake Casaletto",
+    "license": "MIT",
+    "scripts": {
+        "test-libra-env-var": "if [ -z $LIBRA ]; then echo \"\\$LIBRA environment variable missing.\"; echo \"Please set \\$LIBRA to the Libra Core root path\"; exit 1; fi",
+        "testnet": "npm run test-libra-env-var && (cd $LIBRA && ./scripts/cli/start_cli_testnet.sh)",
+        "setup": "npm install && mkdir -p dist/client && mkdir-p dist/server && npm run build-server && npme run build-client",
+        "clean": "rm -rf dist/* && npm run clean-protos",
+        "clean-protos": "rm -rf src/server/proto/* && mkdir -p src/server/proto/flowtypes && mkdir -p src/server/proto/js",
+        "build-server": "npm run clean && npm run build-protos && cp -a ./src/server/proto/. ./dist/server/proto/",
+        "start-dev": "webpack-dev-server",
+        "build-client": "webpack",
+        "copy-protos": "npm run test-libra-env-var && echo \"Copying Libra protobuf files...\"; sourcedir=$(pwd); find $LIBRA -name \"*.proto\" -execdir echo \"\tCopying {}...\" \\; -execdir cp \"{}\" $sourcedir/src/server/proto \\; -execdir sed -i '' 's#import \"shared/#import \"#g' $sourcedir/src/server/proto/{} \\;",
+        "build-protos": "npm run test-libra-env-var && npm run clean-protos && npm run copy-protos && echo \"Building and Flow-typing Libra protobuf files...\"; sourcedir=$(pwd); find ./src/server/proto -name \"*.proto\" -execdir protoc --plugin=protoc-gen-grpc=`which grpc_tools_node_protoc_plugin` --grpc_out=$sourcedir/src/server/proto/js --plugin=\"protoc-gen-flow=$sourcedir/node_modules/.bin/protoc-gen-flow\" --js_out=\"import_style=commonjs,binary:$sourcedir/src/server/proto/js\" --flow_out=service=true:\"$sourcedir/src/server/proto/flowtypes\"  -I$sourcedir/src/server/proto \"{}\"  \\;"
+    },
+    "dependencies": {
+        "axios": "^0.19.0",
+        "eslint": "^5.3.0",
+        "grpc": "^1.21.1",
+        "normalize.css": "^8.0.1",
+        "react": "^16.8.6",
+        "react-dom": "^16.8.6",
+        "react-router-dom": "^5.0.1",
+        "styled-components": "^4.3.2"
+    },
+    "devDependencies": {
+        "@babel/cli": "^7.4.4",
+        "@babel/core": "^7.4.5",
+        "@babel/polyfill": "^7.4.4",
+        "@babel/preset-env": "^7.4.5",
+        "@babel/preset-react": "^7.0.0",
+        "babel-eslint": "^10.0.2",
+        "babel-loader": "^8.0.6",
+        "core-js": "^3.1.4",
+        "css-loader": "^3.0.0",
+        "eslint-config-airbnb": "^17.1.0",
+        "eslint-config-prettier": "^5.0.0",
+        "eslint-import-resolver-webpack": "^0.11.1",
+        "eslint-loader": "^2.1.2",
+        "eslint-plugin-import": "^2.17.3",
+        "eslint-plugin-jsx-a11y": "^6.2.1",
+        "eslint-plugin-prettier": "^3.1.0",
+        "eslint-plugin-react": "^7.14.0",
+        "file-loader": "^4.0.0",
+        "flowtype-protoc-gen": "^0.8.1-pre",
+        "google-protobuf": "^3.8.0",
+        "html-webpack-plugin": "^3.2.0",
+        "prettier": "^1.18.2",
+        "style-loader": "^0.23.1",
+        "webpack": "^4.35.0",
+        "webpack-cli": "^3.3.5",
+        "webpack-dev-server": "^3.7.2"
+    }
 }
