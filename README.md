@@ -7,6 +7,7 @@ Excuse the mess!
 -   full available grpc implementation w/ full REST api availability
 -   transcribe npm scripts into .sh files for convenience
 -   move some npm scripts to be handled by webpack
+-   splitting code into individual modules and decoupling builds
 
 ## Sources
 
