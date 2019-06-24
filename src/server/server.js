@@ -17,10 +17,13 @@ const serverConfig = require("./config");
             client
                 .UpdateToLatestLedger([])
                 .then(resp => resolve(resp.toObject()))
-                .catch(err => reject(err.toObject()));
+                .catch(err => reject(err));
         })
-            .then(resp => res.send(resp))
-            .catch(err => res.send(err));
+            .then(resp => res.send({ error: null, response: resp }))
+            .catch(err => {
+                console.log(err);
+                res.send({ error: err, response: null });
+            });
     });
 
     app.listen(serverConfig.constants.serverPort, () => {

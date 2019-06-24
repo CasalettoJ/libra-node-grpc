@@ -19,6 +19,7 @@ class LibraClient {
 
     // cb has to be (err, resp) => void
     // todo: request items handling.
+    // todo: update the trusted version when this is successfully run
     UpdateToLatestLedger(requestedItems, callback) {
         const request = new getWithProofMessages.UpdateToLatestLedgerRequest();
         request.setClientKnownVersion(0);
