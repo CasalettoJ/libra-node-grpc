@@ -15,9 +15,9 @@ function handleUpdateToLatestLedger(err, response) {
   console.log("Empty UpdateToLatestLedger call complete.");
   if (err) {
     console.log("Error!");
-    console.log(err);
+    console.log(JSON.stringify(err));
   } else {
     console.log("Response:");
-    console.log(response);
+    console.log(JSON.stringify(response));
   }
 }
