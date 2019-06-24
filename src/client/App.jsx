@@ -15,5 +15,4 @@ function App() {
     return <Home apiAddr="http://localhost:3001" />;
 }
 
-// "document" can technically be null and so flow gives an error to getElementById()'s call.
 ReactDOM.render(<App />, document.getElementById("app"));
