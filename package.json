@@ -8,18 +8,22 @@
     "scripts": {
         "test-libra-env-var": "if [ -z $LIBRA ]; then echo \"\\$LIBRA environment variable missing.\"; echo \"Please set \\$LIBRA to the Libra Core root path\"; exit 1; fi",
         "testnet": "npm run test-libra-env-var && (cd $LIBRA && ./scripts/cli/start_cli_testnet.sh)",
-        "setup": "npm install && mkdir -p dist/client && mkdir-p dist/server && npm run build-server && npme run build-client",
-        "clean": "rm -rf dist/* && npm run clean-protos",
+        "setup": "npm install && npm run build-server && npm run build-client",
+        "clean": "rm -rf dist/* && mkdir -p ./dist/client ; mkdir -p ./dist/server/proto/flowtypes ; mkdir -p ./dist/server/proto/js && npm run clean-protos",
         "clean-protos": "rm -rf src/server/proto/* && mkdir -p src/server/proto/flowtypes && mkdir -p src/server/proto/js",
-        "build-server": "npm run clean && npm run build-protos && cp -a ./src/server/proto/. ./dist/server/proto/",
+        "build-server": "npm run clean && npm run build-protos && cp -a ./src/server/. ./dist/server/",
         "start-dev": "webpack-dev-server",
+        "start-server": "node ./dist/server/server.js",
         "build-client": "webpack",
         "copy-protos": "npm run test-libra-env-var && echo \"Copying Libra protobuf files...\"; sourcedir=$(pwd); find $LIBRA -name \"*.proto\" -execdir echo \"\tCopying {}...\" \\; -execdir cp \"{}\" $sourcedir/src/server/proto \\; -execdir sed -i '' 's#import \"shared/#import \"#g' $sourcedir/src/server/proto/{} \\;",
         "build-protos": "npm run test-libra-env-var && npm run clean-protos && npm run copy-protos && echo \"Building and Flow-typing Libra protobuf files...\"; sourcedir=$(pwd); find ./src/server/proto -name \"*.proto\" -execdir protoc --plugin=protoc-gen-grpc=`which grpc_tools_node_protoc_plugin` --grpc_out=$sourcedir/src/server/proto/js --plugin=\"protoc-gen-flow=$sourcedir/node_modules/.bin/protoc-gen-flow\" --js_out=\"import_style=commonjs,binary:$sourcedir/src/server/proto/js\" --flow_out=service=true:\"$sourcedir/src/server/proto/flowtypes\"  -I$sourcedir/src/server/proto \"{}\"  \\;"
     },
     "dependencies": {
         "axios": "^0.19.0",
+        "body-parser": "^1.19.0",
+        "cors": "^2.8.5",
         "eslint": "^5.3.0",
+        "express": "^4.17.1",
         "grpc": "^1.21.1",
         "normalize.css": "^8.0.1",
         "react": "^16.8.6",
@@ -52,7 +56,6 @@
         "prettier": "^1.18.2",
         "style-loader": "^0.23.1",
         "webpack": "^4.35.0",
-        "webpack-cli": "^3.3.5",
-        "webpack-dev-server": "^3.7.2"
+        "webpack-cli": "^3.3.5"
     }
 }

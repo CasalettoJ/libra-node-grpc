@@ -1,3 +1,4 @@
+// https://github.com/bonustrack/libra-grpc/blob/master/src/client.js
 // node_modules
 const grpc = require("grpc");
 
@@ -16,11 +17,25 @@ class LibraClient {
         );
     }
 
+    // cb has to be (err, resp) => void
+    // todo: request items handling.
     UpdateToLatestLedger(requestedItems, callback) {
         const request = new getWithProofMessages.UpdateToLatestLedgerRequest();
         request.setClientKnownVersion(0);
         request.setRequestedItemsList(requestedItems);
-        this.client.updateToLatestLedger(request, callback);
+
+        const promise = new Promise((resolve, reject) => {
+            this.client.updateToLatestLedger(request, (err, resp) => {
+                if (err) {
+                    return reject(err);
+                }
+                return resolve(resp);
+            });
+        });
+        if (!callback) {
+            return promise;
+        }
+        return promise.then(resp => callback(null, resp).catch(err => callback(err, null)));
     }
 
     // SubmitTransaction() {

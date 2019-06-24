@@ -1,23 +1,27 @@
 import React, { Fragment, useState } from "react";
 import PropTypes from "prop-types";
-import LibraClient from "../../server/libra/libraclient"; // TODO : Have to move this to server and expose via REST endpoint
+import axios from "axios";
 
 function Home(props) {
     const [lastResponse, setLastResponse] = useState({});
     const [lastErr, setLastErr] = useState({});
-    const libraClient = new LibraClient(props.address);
 
-    function handleLatestLedgerResponse(err, resp) {
-        if (err) {
-            setLastErr(err);
-        } else {
-            setLastResponse(resp);
-        }
+    function handleClick() {
+        axios
+            .get(props.apiAddr)
+            .then(response => {
+                setLastResponse(response);
+                console.log(response);
+            })
+            .catch(error => {
+                setLastErr(error);
+                console.log(error);
+            });
     }
 
     return (
         <Fragment>
-            <button type="button" onClick={() => libraClient.UpdateToLatestLedger([], handleLatestLedgerResponse)}>
+            <button type="button" onClick={handleClick}>
                 Update to Latest Ledger
             </button>
             {lastErr && <div> ERROR: {JSON.stringify(lastErr)}</div>}
@@ -31,7 +35,7 @@ function Home(props) {
 }
 
 Home.propTypes = {
-    address: PropTypes.string.isRequired
+    apiAddr: PropTypes.string.isRequired
 };
 
 export default Home;

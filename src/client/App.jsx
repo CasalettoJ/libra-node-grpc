@@ -12,7 +12,7 @@ import ReactDOM from "react-dom";
 import Home from "./components/Home";
 
 function App() {
-    return <Home address="ac.testnet.libra.org:8000" />;
+    return <Home apiAddr="http://localhost:3001" />;
 }
 
 // "document" can technically be null and so flow gives an error to getElementById()'s call.

@@ -36,11 +36,6 @@ const webpackConfig = {
             template: path.join(paths.src, "index.html")
         })
     ],
-    devServer: {
-        contentBase: paths.build,
-        publicPath: "/",
-        historyApiFallback: true
-    },
 
     resolve: {
         extensions: [".js", ".jsx"]
