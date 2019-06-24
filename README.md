@@ -1,8 +1,10 @@
+Excuse the mess!
+
 ## TODOs:
 
 -   proper Readme
 -   typescript or flow typing
--   full available grpc implementation
+-   full available grpc implementation w/ full REST api availability
 -   transcribe npm scripts into .sh files for convenience
 -   move some npm scripts to be handled by webpack
 
