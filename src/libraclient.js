@@ -5,6 +5,7 @@ const grpc = require("grpc");
 const getWithProofMessages = require("./proto/js/get_with_proof_pb");
 const admissionControlMessages = require("./proto/js/admission_control_pb");
 const admissionControlServices = require("./proto/js/admission_control_grpc_pb");
+const transactionMessages = require("./proto/js/transaction_pb");
 
 class LibraClient {
   constructor(address) {
@@ -17,14 +18,15 @@ class LibraClient {
 
   UpdateToLatestLedger(requestedItems, callback) {
     const request = new getWithProofMessages.UpdateToLatestLedgerRequest();
-    request.clientKnownVersion = 0;
-    request.requestedItemsList = requestedItems;
+    request.setClientKnownVersion(0);
+    request.setRequestedItemsList(requestedItems);
     this.client.updateToLatestLedger(request, callback);
   }
 
-  // SubmitTransaction() {
-  //     // TODO
-  // }
+  SubmitTransaction() {
+    // const request = new admissionControlMessages.SubmitTransactionRequest();
+    // const newSignedTx = new transactionMessages.SignedTransaction();
+  }
 }
 
 module.exports = LibraClient;

@@ -1,5 +1,6 @@
 // relative imports
 const LibraClient = require("./libraclient");
+const getWithProofMessages = require("./proto/js/get_with_proof_pb");
 
 const testnetAddr = "ac.testnet.libra.org:8000";
 
@@ -8,16 +9,19 @@ const testnetAddr = "ac.testnet.libra.org:8000";
   const client = new LibraClient(testnetAddr);
   console.log("client created");
   console.log("testing UpdateToLatestLedger");
-  client.UpdateToLatestLedger([], handleUpdateToLatestLedger);
+  client.UpdateToLatestLedger([], handleResp);
+  console.log("testing SendTransaction");
+  client.SubmitTransaction();
 })();
 
-function handleUpdateToLatestLedger(err, response) {
+function handleResp(err, response) {
   console.log("Empty UpdateToLatestLedger call complete.");
   if (err) {
     console.log("Error!");
     console.log(JSON.stringify(err));
   } else {
-    console.log("Response:");
-    console.log(JSON.stringify(response));
+    console.log("Parsing response..");
+    const responseObj = response.toObject();
+    console.log(JSON.stringify(responseObj));
   }
 }
