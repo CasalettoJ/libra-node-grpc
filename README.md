@@ -1,6 +1,7 @@
 TODOs:
 
 -   proper Readme
+-   typescript
 -   libraclient grpc implementation
 -   build system for minifying, etc
 -   transcribe npm scripts into .sh files for convenience

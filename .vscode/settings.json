@@ -1,8 +1,8 @@
 {
-  "editor.formatOnSave": true,
-  "javascript.validate.enable": false,
-  "[markdown]": {
-    "editor.wordWrap": "on"
-  },
-  "flow.useNPMPackagedFlow": true
+    "editor.formatOnSave": true,
+    "javascript.validate.enable": false,
+    "[markdown]": {
+        "editor.wordWrap": "on"
+    },
+    "eslint.workingDirectories": ["../"]
 }

@@ -1,33 +1,30 @@
-// @flow
-
 // node_modules
-import path from "path";
-import grpc from "grpc";
+const grpc = require("grpc");
 
 // relative imports
-import * as admissionControlMessages from "./proto/js/admission_control_pb";
-import * as admissionControlServices from "./proto/js/admission_control_grpc_pb";
+const getWithProofMessages = require("./proto/js/get_with_proof_pb");
+const admissionControlMessages = require("./proto/js/admission_control_pb");
+const admissionControlServices = require("./proto/js/admission_control_grpc_pb");
 
-// Flow-typing
-import * as admissionControlTypes from "./proto/flowtypes/admission_control_pb.flow";
+class LibraClient {
+  constructor(address) {
+    this.serverAddress = address;
+    this.client = new admissionControlServices.AdmissionControlClient(
+      this.serverAddress,
+      grpc.credentials.createInsecure()
+    );
+  }
 
-export default class LibraClient {
-    serverAddress: string;
-    client: any; // todo: better typing
+  UpdateToLatestLedger(requestedItems, callback) {
+    const request = new getWithProofMessages.UpdateToLatestLedgerRequest();
+    request.clientKnownVersion = 0;
+    request.requestedItemsList = requestedItems;
+    this.client.updateToLatestLedger(request, callback);
+  }
 
-    constructor(address: string) {
-        this.serverAddress = address;
-        this.client = new admissionControlServices.AdmissionControlClient(
-            this.serverAddress,
-            grpc.credentials.createInsecure()
-        );
-    }
-
-    UpdateToLatestLedger(): void {
-        // TODO
-    }
-
-    SubmitTransaction(): void {
-        // TODO
-    }
+  // SubmitTransaction() {
+  //     // TODO
+  // }
 }
+
+module.exports = LibraClient;
