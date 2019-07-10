@@ -1,4 +1,4 @@
-Excuse the mess!
+see here instead: https://github.com/CasalettoJ/Aquarius-Wallet
 
 ## TODOs:
 
