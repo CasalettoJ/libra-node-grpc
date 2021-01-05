@@ -19,7 +19,7 @@
         "build-protos": "npm run test-libra-env-var && npm run clean-protos && npm run copy-protos && echo \"Building and Flow-typing Libra protobuf files...\"; sourcedir=$(pwd); find ./src/server/proto -name \"*.proto\" -execdir protoc --plugin=protoc-gen-grpc=`which grpc_tools_node_protoc_plugin` --grpc_out=$sourcedir/src/server/proto/js --plugin=\"protoc-gen-flow=$sourcedir/node_modules/.bin/protoc-gen-flow\" --js_out=\"import_style=commonjs,binary:$sourcedir/src/server/proto/js\" --flow_out=service=true:\"$sourcedir/src/server/proto/flowtypes\"  -I$sourcedir/src/server/proto \"{}\"  \\;"
     },
     "dependencies": {
-        "axios": "^0.19.0",
+        "axios": "^0.21.1",
         "body-parser": "^1.19.0",
         "cors": "^2.8.5",
         "eslint": "^5.3.0",
