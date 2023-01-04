@@ -52,7 +52,7 @@
         "file-loader": "^4.0.0",
         "flowtype-protoc-gen": "^0.8.1-pre",
         "google-protobuf": "^3.8.0",
-        "html-webpack-plugin": "^3.2.0",
+        "html-webpack-plugin": "^5.5.0",
         "prettier": "^1.18.2",
         "style-loader": "^0.23.1",
         "webpack": "^4.35.0",
